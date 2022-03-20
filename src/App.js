@@ -1,23 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from 'react'
 
-function App() {
+const App = () => {
+  const [userChoice, setUserChoice] = useState(null)
+  const [computerChoice, setComputerChoice] = useState(null)
+  const [result, setResult] = useState(null)
+
+  const choices = ['rock', 'paper', 'scissors']
+
+  const handleClick = (value) => {
+    setUserChoice(value)
+
+    const randomNumber = Math.floor(Math.random() * choices.length)
+    const randomChoice = choices[randomNumber]
+    setComputerChoice(randomChoice)
+
+    switch (value + randomChoice) {
+      case 'rockscissors':
+      case 'scissorspaper':
+      case 'paperrock':
+        setResult('YOU WIN!')
+        break;
+      case 'scissorsrock':
+      case 'paperscissors':
+      case 'rockpaper':
+        setResult('YOU LOSE')
+        break
+      default:
+        setResult('DRAW!!!')
+        break;
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>Your choice is: {userChoice}</h2>
+      <h2>Computer choice is: {computerChoice}</h2>
+
+      {choices.map(item => <button key={item} onClick={() => handleClick(item)}>{item}</button>)}
+
+      <h2>{result}</h2>
     </div>
   );
 }
